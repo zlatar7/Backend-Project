@@ -53,23 +53,20 @@ class Usuario{
     }
 }
 
-
 const persona1 = new Usuario("Juan", "Dominguez",{Libro: "El código Da Vinci", Autor: "Dan Brown"}, "Tortuga");
-const persona2 = new Usuario("Monica", "Dominguez",{Libro: "El Principito", Autor: "Saint Exupery"}, "Caballo");
-
+//const persona2 = new Usuario("Monica", "Dominguez",{Libro: "El Principito", Autor: "Saint Exupery"}, "Caballo");
 
 console.log(persona1.getFullName())
-console.log(persona2.getFullName())
+//console.log(persona2.getFullName())
 
 persona1.addMascota("Conejo")
-persona2.addMascota("Pez")
+//persona2.addMascota("Pez")
  
 console.log(persona1.countMascotas())
-console.log(persona2.countMascotas())
+//console.log(persona2.countMascotas())
 
 persona1.addBook({Libro: "Moby Dick", Autor: "Herman Melville"})
-persona2.addBook({Libro: "Moby Dick", Autor: "Herman Melville"})
+//persona2.addBook({Libro: "Oliver Twist", Autor: "Charles Dickens"})
 
 console.log(persona1.getBookNames())
 //console.log(persona2.getBookNames())
-
