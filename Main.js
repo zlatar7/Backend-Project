@@ -114,11 +114,11 @@ class Contenedor{
 }
 
 const contenedor1 = new Contenedor('productos.txt')
+/*
 
 //TESTS DE LAS FUNCIONES
 
 contenedor1.save({title:"transportador", price: 100, thumbnail:"https://fotos.com.ar"}).then((res) => console.log(res))
-/*
 const contenedor2 = new Contenedor('productos.txt')
 //Se utiliza el SetTimeout asi no se superpone con el primer producto a guardar
 setTimeout(()=>{contenedor2.save({title:"compás",price: 250, thumbnail:"https://compas.com.ar"}).then((res) => console.log(res));}, 1500)
@@ -131,3 +131,5 @@ setTimeout(()=>{contenedor2.save({title:"compás",price: 250, thumbnail:"https:/
 //contenedor1.deleteAll().then((res) => console.log(res))
 
 //contenedor1.deleteById(3).then((res) => console.log(res))
+
+export {contenedor1}
