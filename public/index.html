@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+</head>
+<body>
+    <h1 style="color: #0082b6b6; margin: auto; width: min-content;">INGRESE LOS DATOS CORRESPONDIENTES:</h1>
+    <br>
+    <br>
+    <form action="api/productos/" method="POST" style="background-color: #89fafac2; width: min-content; padding: 2em; margin: 6em auto 0em auto; border: 2px solid #fdffffd0; box-shadow: 0px 0px 10px rgb(0, 60, 255)">
+        <div style="display: flex; margin: auto; width: min-content;">
+            <label for="price">PRECIO:</label>
+            <input type="number" min="0" name="price">
+            <label for="price">TITULO:</label>
+            <input type="text" name="title">
+            <label for="price">FOTO:</label>
+            <input type="text" name="thumbnail">
+        </div>
+        <br>
+        <br>
+        <button style="margin: auto; align-self: center; display: flex; background-color: #fffe4e; border-radius: 10px; border: 1.5px solid">ENVIAR</button>
+    </form>
+</body>
+</html>
