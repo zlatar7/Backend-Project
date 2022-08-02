@@ -34,8 +34,8 @@ app.get("/productos",(req, res)=>{
 app.post("/productos", (req, res)=>{
     const productoRecibido = req.body
     const productoNuevo = {nombre: productoRecibido.title , precio: productoRecibido.price, foto: productoRecibido.thumbnail};
-    const productos = [...arrayProductos, productoNuevo]
-    res.render("main", {array: productos, listExists: true})
+    arrayProductos.push(productoNuevo)
+    res.render("main", {array: arrayProductos, listExists: true})
 })
 
 /* 
