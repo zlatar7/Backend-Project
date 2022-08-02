@@ -2,11 +2,24 @@
 
 <div style="border: #00000059; background-color:rgb(253, 253, 155); margin:auto; padding:1em">
     {{#if listExists}}
+    <table style="margin: 1.5em auto 1.5em auto; background-color:aquamarine; box-shadow: 0px 0px 10px #003cff; list-style-type: none; width: 20%; padding:10px">
+        <thead>
+            <th>NOMBRE</th>
+            <th>PRECIO</th>
+            <th>IMAGEN</th>
+        </thead>
+        <tbody>
         {{#each array}}
-        <ul style="margin: 1.5em auto 1.5em auto; background-color:aquamarine; box-shadow: 0px 0px 10px #003cff; list-style-type: none; width: 20%; padding:10px" >
-            <li>{{this.nombre}} {{this.precio}}<img src="{{this.foto}}" height="75px" alt="foto"></li>
-        </ul>
+            <tr>
+                <td>{{this.nombre}}</td>
+                <td>{{this.precio}}</td>
+                <td><img src="{{this.foto}}" height="75px" alt="foto"></td>
+            </tr>
         {{/each}}
+        </tbody>
+    </table>
+    {{else}}
+        <p>NO HAY PRODUCTOS</p>
     {{/if}}
 </div>
-<button style="margin: 3em auto 3em auto" onclick="window.location.href='/'" >IR A INCIO</button>
+<button style="margin: 3em auto 3em auto" onclick="window.location.href='/'" >IR A INICIO</button>
