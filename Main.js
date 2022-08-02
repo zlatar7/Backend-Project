@@ -22,7 +22,7 @@ class Contenedor{
     
                 await promises.writeFile(this.archivo, arrayCompleto)
 
-                return `Se ha agregado el producto, y su nuevo ID es: ${id}`
+                return objetoConId
                     
                 } else {
 
@@ -34,7 +34,7 @@ class Contenedor{
                     
                     await promises.writeFile(this.archivo, arrayCompleto)
                 
-                    return `Se ha agregado el producto, y su nuevo ID es: ${id}`
+                    return objetoConId
                 }
             }            
         catch (error) {
@@ -52,13 +52,40 @@ class Contenedor{
             if(elementoEncontrado) {
                 return elementoEncontrado
             } else {
-                return 'Elemento no encontrado'
+                return {error: 'producto no encontrado'}
             }
 
 
         } catch (error) {
             console.log(error)
         }
+    }
+    
+    async updateById(id, objeto){
+
+        try {
+            const contenido = await promises.readFile(this.archivo, "utf-8");
+            const info = JSON.parse(contenido);
+
+            const idExistente = info.find(item => item.id == id)
+
+            if(idExistente) {
+
+                info.splice(id -1 , 1, objeto)
+
+                const arrayCompleto = JSON.stringify(info);
+                await promises.writeFile(this.archivo, arrayCompleto)
+          
+                return objeto
+
+            } else {
+                return {error: 'producto no encontrado'}
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     async getAll(){
@@ -67,12 +94,12 @@ class Contenedor{
             const info = JSON.parse(contenido);
 
             return info
-
+            
         } catch (error) { 
             console.log(error)
         }
     }
-
+    
     async deleteById(numId){
         try {
 
@@ -88,11 +115,11 @@ class Contenedor{
                     
                     await promises.writeFile(this.archivo, JSON.stringify(nuevoArray))
                     
-                    return 'Elemento eliminado'
+                    return 'Producto eliminado'
 
                 }else{
 
-                    return `No hay elementos con el ID ingresado`
+                    return {error: "producto no encontrado"}
             }
 
         } catch (error) {
@@ -111,6 +138,7 @@ class Contenedor{
             console.log(error)
         }
     }
+
 }
 
 const contenedor1 = new Contenedor('productos.txt')
@@ -126,10 +154,13 @@ setTimeout(()=>{contenedor2.save({title:"compás",price: 250, thumbnail:"https:/
 
 //contenedor1.getById(2).then((res) => console.log(res))
 
+//contenedor1.updateById(1, {price: 20, title: "lapicera", thumbnail:"www.lapicera.com", id: 1}).then((res) => console.log(res))
+
 //contenedor1.getAll().then((res) => console.log(res))
 
 //contenedor1.deleteAll().then((res) => console.log(res))
 
 //contenedor1.deleteById(3).then((res) => console.log(res))
+
 
 export {contenedor1}
