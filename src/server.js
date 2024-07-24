@@ -1,15 +1,15 @@
 import express from "express";
 import mongoose from "mongoose";
-import sessionRoutes from "./routes/session.router.js";
-import viewsRoutes from "./routes/views.router.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import morgan from "morgan";
 // import MongStore from "connect-mongo";
 import path from "path";
 import handlebars from "express-handlebars";
 import __dirname from "./dirname.js";
 import passport from "passport";
 import { initializePassport } from "./config/passport.config.js";
+import router from "./routes/index.routers.js";
 
 // Create app
 const app = express();
@@ -19,6 +19,7 @@ const PORT = 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(morgan("dev"));
 app.use(
   session({
     secret: "s3cr3t",
@@ -29,7 +30,7 @@ app.use(
 
 // Mongo config
 mongoose
-  .connect("mongodb://localhost:27017/ch69920")
+  .connect("mongodb://localhost:27017/azulazul-ecommerce")
   .then(() => {
     console.log("Conectado a MongoDB");
   })
@@ -53,8 +54,7 @@ app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
 
 // Routes
-app.use("/api/sessions", sessionRoutes);
-app.use("/", viewsRoutes);
+app.use("/", router);
 
 // Start server
 app.listen(PORT, () => {
