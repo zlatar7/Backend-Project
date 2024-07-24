@@ -1,10 +1,13 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 
 const userSchema = new Schema({
-  name: { type: String, require: true },
+  first_name: { type: String, require: true },
+  last_name: { type: String, require: true },
   email: { type: String, require: true, unique: true },
   age: { type: Number, require: true },
   password: { type: String, require: true },
+  role: { type: String, enum: ["admin", "user"], default: "user" },
+  cart: { type: Types.ObjectId, ref: "carts" },
   githubId: { type: String },
 });
 
