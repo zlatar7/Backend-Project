@@ -5,7 +5,7 @@ const program = new Command();
 
 program
         .option("-e, --env <string>", "Modo del servidor", "dev")
-        .option("-p, --prod <string>", "Modo del servidor", "prod")
+        // .option("-p, --prod <string>", "Modo del servidor", "prod")
 
 program.parse();
 
