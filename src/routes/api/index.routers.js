@@ -6,7 +6,7 @@ import sessionsRouters from "./sessions.routers.js";
 
 const apiRouter = Router()
 
-apiRouter.use("/user", usersRouter)
+apiRouter.use("/users", usersRouter)
 apiRouter.use("/products", productsRouter)
 apiRouter.use("/cart", cartRouter)
 apiRouter.use("/sessions", sessionsRouters)

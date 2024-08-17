@@ -1,58 +1,18 @@
 import { Router } from "express";
-import {cartModel} from "../../models/cart.model.js"
-import { Types } from "mongoose";
+import { cartController } from "../../controllers/cart.controller.js";
+import { authorizations } from "../../middlewares/authorization.middleware.js";
+import { validate } from "../../middlewares/validation.middleware.js";
+import { cartDto } from "../../dtos/cart.dto.js";
+import passport from "passport";
 
 const cartRouter = Router();
 
-cartRouter.get("/", async (req, res, next)=> {
-
-    try {
-        const carts = await cartModel.find()
-        res.status(200).json(carts);
-    } catch (error) {
-        next(error)
-    }
-})
-
-cartRouter.post("/", async (req, res, next)=>{
-    try {
-        const data = req.body
-        const cart = await cartModel.create(data)
-        res.status(200).json(cart)       
-    } catch (error) {
-        next(error)
-    }
-})
-
-cartRouter.put("/:cid", async (req, res, next)=>{
-    try {
-        const { cid } = req.params;
-        const data = req.body;
-        const opts = {new: true}
-        const isValidID = Types.ObjectId.isValid(cid);
-
-        if (isValidID) {
-            const cart = await cartModel.findByIdAndUpdate(cid, data, opts)
-            res.status(200).json(cart)
-        } else {
-            throw Error;
-        }
-
-    } catch (error) {
-        next(error)
-    }
-})
-
-cartRouter.delete("/:cid", async (req, res, next)=>{
-    try {
-        const {cid} = req.params
-        const cart = await cartModel.findByIdAndDelete(cid);
-
-        res.status(200).json(cart)
-    } catch (error) {
-        next(error)
-    }
-
-})
+cartRouter.get("/", cartController.getAll)
+cartRouter.get("/:cid", cartController.getById)
+cartRouter.post("/", validate(cartDto), passport.authenticate("jwt",{session: false}),
+    authorizations(["user"]), cartController.create)
+cartRouter.post("/:cid/purchase", cartController.purchase);
+cartRouter.put("/:cid", cartController.update)
+cartRouter.delete("/:cid", cartController.delete)
 
 export default cartRouter
