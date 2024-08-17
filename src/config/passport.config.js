@@ -4,6 +4,7 @@ import jwtStrategy from "passport-jwt";
 import GithubStrategy from "passport-github2";
 import { userModel } from "../models/user.model.js";
 import { comparePassword } from "../utils/hash.js";
+import { config } from "./config.js";
 
 const LocalStrategy = local.Strategy;
 const JWTStrategy = jwtStrategy.Strategy;
@@ -69,17 +70,58 @@ export const initializePassport = () => {
   );
 
   passport.use(
+    "register",
+    new LocalStrategy(
+      {
+        usernameField: "email",
+        passReqToCallback: true,
+      },
+      async (req, email, password, done) => {
+        try {
+          const { first_name, last_name, age } = req.body;
+
+          const userExists = await userModel.findOne({ email });
+
+          if (userExists) {
+            return done(null, false, { message: "El usuario ya existe" });
+          }
+
+          const hashPassword = await createHash(password);
+
+          const user = await userModel.create({
+            first_name,
+            last_name,
+            email,
+            age,
+            password: hashPassword,
+          });
+
+          return done(null, user);
+        } catch (error) {
+          done(error);
+        }
+      }
+    )
+  );
+
+  passport.use(
     "jwt",
     new JWTStrategy(
       {
         jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-        secretOrKey: "s3cr3t",
+        secretOrKey: config.JWT_SECRET,
       },
       async (payload, done) => {
         try {
-          return done(null, payload);
+          const user = await userModel.find({ email: payload.email });
+
+          if (!user) {
+            return done(null, false, { message: "No se encontró el usuario" });
+          }
+
+          return done(null, user);
         } catch (error) {
-          return done(error);
+          done(error);
         }
       }
     )

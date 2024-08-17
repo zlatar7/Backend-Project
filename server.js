@@ -6,14 +6,15 @@ import morgan from "morgan";
 // import MongStore from "connect-mongo";
 import path from "path";
 import handlebars from "express-handlebars";
-import __dirname from "./dirname.js";
+import __dirname from "./src/dirname.js";
 import passport from "passport";
-import { initializePassport } from "./config/passport.config.js";
-import router from "./routes/index.routers.js";
+import { initializePassport } from "./src/config/passport.config.js";
+import router from "./src/routes/index.routers.js";
+import { config } from "./src/config/config.js";
 
 // Create app
 const app = express();
-const PORT = 5000;
+const PORT = config.PORT;
 
 // Express config
 app.use(express.json());
@@ -30,7 +31,7 @@ app.use(
 
 // Mongo config
 mongoose
-  .connect("mongodb://localhost:27017/azulazul-ecommerce")
+  .connect(config.MONGO_URI)
   .then(() => {
     console.log("Conectado a MongoDB");
   })
@@ -58,5 +59,5 @@ app.use("/", router);
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running in ${config.ENVIRONMENT} on port ${config.PORT}`);
 });
